@@ -48,88 +48,35 @@ Security Onion: <a href="https://securityonion.net/download">Download Security O
 
 Kali Linux: <a href="https://www.kali.org/get-kali/#kali-virtual-machines">Download Kali Linux for VMware</a>
 
+### Ref 4: VMware Network Configuration
 
-### Ref 3: SplunkForwarder Installation using a custom inputs.conf
+Window 10: Vmnet3
 
-After installing splunk forwarder to listen to my splunk server on 192.168.10.10 on the default port 9997. We need to configure the telemetries to send by opening a Notepad with administrator rights. The code below was then insert and saved on the splunk forwarder local file as "inputs.conf"
+Window 10 Server: Vmnet3 
 
-[WinEventLog://Application]
+Ubuntu Server (For Splunk): NAT, Vmnet6
 
-index = endpoint
+Ubuntu Desktop (Security Onion Manager): NAT
 
-disabled = false
+Pfsense: NAT, Vmnet2, Vmnet3, Vmnet4, Vmnet5, Vmnet6
 
-[WinEventLog://Security]
+Security Onion: NAT, Vmnet4, Vmnet5
 
-index = endpoint
+Kali Linux: Vmnet2
 
-disabled = false
 
-[WinEventLog://System]
-
-index = endpoint
-
-disabled = false
-
-[WinEventLog://Microsoft-Windows-Sysmon/Operational]
-
-index = endpoint
-
-disabled = false
-
-renderXml = true
-
-source = XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-
-### Ref 4: Configure Splunk
-
-Log onto 192.168.10.10:8000 with correct details. Go to settings and then indexes to "endpoint" as a new index
-
-Also from setting, select forwarding and listening and add a new port for listening. The listening port is 9997
-
-You might experience a little technical issue like me as below.
-
-![VirtualBox_Windows 10_16_04_2024_21_48_00](https://github.com/teejayvona/Detection-Lab/assets/33003865/48ff714c-7bc9-4139-bccf-9b11e45ef170)
-
-This can be fixed by changing directory on the Splunk server to:
-
-cd /opt/splunk/etc/system/default/
-
-sudo vim server.conf
-
-![VirtualBox_Splunk Server_16_04_2024_22_39_07](https://github.com/teejayvona/Detection-Lab/assets/33003865/7c76c8dc-560f-43ff-a70b-3c7f98c09ebd)
-
-cd /opt/splunk/etc/system/local/
-sudo vim server.conf
-
-or better still just paste this on cd /opt/splunk/etc/system/local/
-
-[diskUsage]
-minFreespace = 50
-pollingFrequency = 100000
-pollingTimeFrequency = 10
-
-and that would be sorted
-
-### Ref 4: Win10 Pro and ADD Server Installation
-I installed Windwos 10 Pro and ADD Server Desktop edition to use as our taget system and Domain server respectively. 
+### Ref 4: Win10 Pro and Win10 Server
+I installed Windwos 10 Pro and Win10 Server Desktop edition to use as our taget system and Domain server respectively. 
 
 I then manually added users to the ADD to mimic real users in an organisation. 
 
-Splunk universal forwarder and Sysmon were install on both systems with the addition of ART on Win10 pro only to simulate attack and investigate telemetries.
+Splunk universal forwarder (download from <a href="https://www.splunk.com/en_us/download/splunk-enterprise.html">Download Splunk Enterprise</a>
+) and Sysmon (download from <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon">Download Sysmon</a>
+) were install on both systems.
 
-The users were also given remote desktop rights
 
 ### Ref 5: Kali Linux
-Kali was installed on VB from Kali official site. We immediately did update on the repositories and eventually installed crowbar which would be used to perform bruteforce attack.
-
-Crowbar comes with a rockyou.txt file contain a bunch of password
-
-By using nano head -n 20 and pointed to password.txt we created a password list for the first 30 to reduce attempt time
-
-We them assume the username 'jadone' has been compromised and type the following for remote desktop brute force attempt
-
-crowbar -b rdp -u jadoe -C password.txt -s 192.168.10.100/32
+Kali was installed on VB from Kali official site and immediately did update on the repositories.
 
 
 ### Ref 6: View Temeletry on Splunk
