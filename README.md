@@ -72,7 +72,7 @@ I then manually added users to the ADD to mimic real users in an organisation.
 
 Splunk universal forwarder (download from <a href="https://www.splunk.com/en_us/download/splunk-enterprise.html">Download Splunk Enterprise</a>
 ) and Sysmon (download from <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon">Download Sysmon</a>
-) were install on both systems.
+) using <a href="https://github.com/olafhartong/sysmon-modular">Olaf Hartong's Sysmon Configuration</a> were install on both systems.
 
 
 ### Ref 5: Kali Linux
